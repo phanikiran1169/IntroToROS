@@ -3,7 +3,7 @@
 To complete this course work, the following will be needed
 - Basic understanding of C++ and building software. [More info in course](https://sir.upc.edu/projects/rostutorials2021-22/2-development_tools/index.html#programming)
 - A PC or laptop running with Ubuntu 20.04
-- Software configuration management. [More info in course](https://sir.upc.edu/projects/rostutorials2021-22/2-development_tools/index.html#version-control-using-git) 
+- Software configuration management (Git). [More info in course](https://sir.upc.edu/projects/rostutorials2021-22/2-development_tools/index.html#version-control-using-git) 
 
 ## ROS Noetic Installation
 
@@ -34,6 +34,16 @@ source ~/.bashrc
 sudo apt install python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
 sudo rosdep init
 rosdep update
+```
+
+Check if installation is successful or not through ROS environment variables
+```
+printenv | grep ROS
+```
+
+or run **roscore**
+```
+roscore
 ```
 
 ### Other ROS packages
