@@ -1,0 +1,17 @@
+/**
+\mainpage
+
+\b This is a packages used to illustrate the documentation using Doxygen and the rosdoc_lite utility. 
+
+This package is the same as agitr_chapter8 used to illustrate the client-server communication, but with added comments on the services and on the main function of the node.
+
+
+\section Usage
+
+\verbatim
+$ rosrun pubvel_toggle_plus
+\endverbatim
+
+
+
+*/
