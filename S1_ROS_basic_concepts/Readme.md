@@ -41,7 +41,7 @@ Check if installation is successful or not through ROS environment variables
 printenv | grep ROS
 ```
 
-or run **roscore**
+or run **roscore** in terminal
 ```
 roscore
 ```
