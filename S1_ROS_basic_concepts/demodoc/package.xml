@@ -5,8 +5,8 @@
   <description>
     Package to illustrate the documentatiuon using Doxygen and rosdoc_lite
   </description>
-  <maintainer email="phanikiran1169@gmail.com">
-    Phani Kiran
+  <maintainer email="jan.rosell@upc.edu">
+    Jan Rosell
   </maintainer>
   <license>TODO</license>
   <buildtool_depend>catkin</buildtool_depend>
