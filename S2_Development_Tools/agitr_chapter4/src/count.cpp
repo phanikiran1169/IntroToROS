@@ -8,9 +8,12 @@ int main(int argc, char **argv) {
   ros::NodeHandle nh;
 
   // Generate log messages of varying severity regularly.
-  ros::Rate rate(10);
+  ros::Rate rate(5);
   for(int i = 1;ros::ok();i++) {
     ROS_DEBUG_STREAM("Counted to " << i);
+    if((i % 2) == 0) {
+      ROS_DEBUG_STREAM(i << " is divisible by 2.");
+    }
     if((i % 3) == 0) {
       ROS_INFO_STREAM(i << " is divisible by 3.");
     }
