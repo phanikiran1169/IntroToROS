@@ -1,0 +1,21 @@
+actions: []
+authors: ''
+brief: ''
+bugtracker: ''
+depends:
+- catkin
+- turtlesim
+- roscpp
+- geometry_msgs
+- message_runtime
+- std_msgs
+- message_generation
+description: Package to illustrate the documentatiuon using Doxygen and rosdoc_lite
+license: TODO
+maintainers: Jan Rosell <jan.rosell@upc.edu>
+msgs: []
+package_type: package
+repo_url: ''
+srvs:
+- Changerate
+url: ''
