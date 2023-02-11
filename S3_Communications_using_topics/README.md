@@ -1,6 +1,6 @@
 # Learnings
 
-#### 1. ros::spinOnce() vs ros::spin():
+#### 1. ros::spinOnce() vs ros::spin()
 
 ROS will only execute our callback function when we give it explicit permission to do so. There are actually two slightly different ways to accomplish this, using ros::spinOnce() or ros::spin().
 
@@ -13,7 +13,7 @@ while(ros::ok()){
 ros::spinOnce();
 }
 ```
-Test code
+Test code: subpose.cpp
 
 ```
 // This program subscribes to turtle1/pose and shows its
@@ -71,11 +71,20 @@ int main(int argc, char **argv) {
   
 }
 ```
+Frequency at which data is being published on turtle1/pose topic
 
-Test1: Used ros::spinOnce() without ros::Rate rate(X) command
-Results: Whileloop was excecuted 14536461 times before the callback function was called for the first time, followed by X(15327062 - 14536461) times of while loop execution before next call for callback function execution. This means the ros::spinOnce() was executed 14536460 times but there was no new message published on the topic for callback function execution. Similar logic can be extended for next steps.
+![](https://user-images.githubusercontent.com/17789814/218255483-bfb24121-7848-400a-9618-a74e0a5c1fb4.png)
 
-Test2: Used ros::spinOnce() with ros::Rate rate(62) command
-Results: Whileloop was excecuted 20 times before the callback function was called for the first time, followed by ~single while loop execution before next call for callback function execution. This means the ros::spinOnce() was executed 20 times but there was no new message published on the topic for callback function execution. Since we matched the ros::spinOnce() execution rate with publishing message rate, we observe that for approximately every ros::spinOnce() execution, the callback function is called.
 
-ProTip: Unless there is a need to control the subscribing frequency, use ros::spin() to avoid hassle.
+
+**Test1**: Used ros::spinOnce() without ros::Rate rate(X) command <br>
+**Results**: Whileloop was excecuted 14536461 times before the callback function was called for the first time, followed by X(15327062 - 14536461) times of while loop execution before next call for callback function execution. This means the ros::spinOnce() was executed 14536460 times but there was no new message published on the topic for callback function execution. Similar logic can be extended for next steps.
+
+![](https://user-images.githubusercontent.com/17789814/218255394-bf3640f8-2bc5-4d61-bcb3-ecc51bf332c0.png)
+
+**Test2**: Used ros::spinOnce() with ros::Rate rate(62) command <br>
+**Results**: Whileloop was excecuted 20 times before the callback function was called for the first time, followed by ~single while loop execution before next call for callback function execution. This means the ros::spinOnce() was executed 20 times but there was no new message published on the topic for callback function execution. Since we matched the ros::spinOnce() execution rate with publishing message rate, we observe that for approximately every ros::spinOnce() execution, the callback function is called.
+
+![](https://user-images.githubusercontent.com/17789814/218255420-48816042-3cd0-4ac0-b200-10649c12c891.png)
+
+**ProTip** 💡 : Unless there is a need to control the subscribing frequency, use ros::spin() to avoid hassle.
