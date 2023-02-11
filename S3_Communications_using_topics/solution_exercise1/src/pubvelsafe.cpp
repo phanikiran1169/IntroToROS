@@ -52,8 +52,8 @@ void publishVelocities(const turtlesim::Pose& pose_msg, ros::Publisher& pub)
 
     // Send a message to rosout with the details.
     ROS_INFO_STREAM("Sending random velocity command:"
-      << " linear=" << msg.linear.x
-      << " angular=" << msg.angular.z);
+      << " linear=" << motion_msg.linear.x
+      << " angular=" << motion_msg.angular.z);
 
     // Wait until it's time for another iteration.
     rate.sleep();
