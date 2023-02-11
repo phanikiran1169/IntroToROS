@@ -46,7 +46,16 @@ int main(int argc, char **argv) {
   // Create a subscriber object.
   ros::Subscriber sub = nh.subscribe("turtle1/pose", 1000,
     &poseMessageReceived);
-
+  
+  // Vary the callback frequency and
+  // see how the count variable changes
+  
+  // Here 62 is taken because the data is published
+  // at the avg rate of 62 Hz on the topic
+  // turtle1/pose
+  // NOTE that the above frequency is not exact
+  // and can vary depending on the sampling window
+  
   ros::Rate rate(62);
 
   // Let ROS take over.
@@ -62,3 +71,11 @@ int main(int argc, char **argv) {
   
 }
 ```
+
+Test1: Used ros::spinOnce() without ros::Rate rate(X) command
+Results: Whileloop was excecuted 14536461 times before the callback function was called for the first time, followed by X(15327062 - 14536461) times of while loop execution before next call for callback function execution. This means the ros::spinOnce() was executed 14536460 times but there was no new message published on the topic for callback function execution. Similar logic can be extended for next steps.
+
+Test2: Used ros::spinOnce() with ros::Rate rate(62) command
+Results: Whileloop was excecuted 20 times before the callback function was called for the first time, followed by ~single while loop execution before next call for callback function execution. This means the ros::spinOnce() was executed 20 times but there was no new message published on the topic for callback function execution. Since we matched the ros::spinOnce() execution rate with publishing message rate, we observe that for approximately every ros::spinOnce() execution, the callback function is called.
+
+ProTip: Unless there is a need to control the subscribing frequency, use ros::spin() to avoid hassle.
