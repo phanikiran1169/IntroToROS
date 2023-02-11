@@ -60,7 +60,7 @@ int main(int argc, char **argv) {
 
   // Let ROS take over.
   
-  // For understanding, the following while
+  // For understanding the nuances, the following while
   // loop is used instead of ros::spin()
   
   while (ros::ok()) {
