@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>solution_exercise1</name>
+  <version>0.0.1</version>
+  <description>
+    Session 3 Exercise 1
+  </description>
+  <maintainer email="hollowmike@mordor.edu">
+    Hollow Mike
+  </maintainer>
+  <license>TODO</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>geometry_msgs</depend>
+  <depend>turtlesim</depend>
+</package>
