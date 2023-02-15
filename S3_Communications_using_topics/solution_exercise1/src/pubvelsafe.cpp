@@ -42,7 +42,7 @@ int main(int argc, char **argv)
   srand(time(0));
 
   // Loop at 2Hz until the node is shut down.
-  ros::Rate rate(10);
+  ros::Rate rate(62);
 
   while(ros::ok())
   {
@@ -54,14 +54,13 @@ int main(int argc, char **argv)
     while(true)
     {
       ros::spinOnce();
-
       if (callback_trigger == true)
       {
         break;
       }
     }
 
-    if (position_x < 200 && position_y < 200)
+    if (position_x < 8.0 && position_y < 8.0)
     {
       ROS_INFO_STREAM("Turtle is inside safe zone");
       motion_msg.linear.x = 1.0;
