@@ -42,7 +42,12 @@ int main(int argc, char **argv)
   srand(time(0));
 
   // Loop at 2Hz until the node is shut down.
-  ros::Rate rate(62);
+  ros::Rate rate(2);
+
+  // Loop at 62Hz to control ros::spinOnce() execution rate
+  // Here 62Hz is taken because the dat is published at the avg rate of 62Hz on
+  // the topic (turtle1/pose).
+  ros::Rate rate_spin(62);
 
   while(ros::ok())
   {
@@ -58,6 +63,7 @@ int main(int argc, char **argv)
       {
         break;
       }
+      rate_spin.sleep();
     }
 
     if (position_x < 8.0 && position_y < 8.0)
