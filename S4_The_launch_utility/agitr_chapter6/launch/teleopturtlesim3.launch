@@ -1,0 +1,15 @@
+<launch>
+  <arg 
+    name="monitorpose"
+    default="0"
+  />
+  <include
+    file="$(find agitr_chapter6)/launch/teleopturtlesim.launch"
+  />
+  <node if="$(arg monitorpose)"
+    pkg="agitr_chapter3"
+    type="subpose"
+    name="pose_subscriber"
+    output="screen"
+  />
+</launch>
