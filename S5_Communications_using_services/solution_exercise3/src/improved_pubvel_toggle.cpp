@@ -7,9 +7,14 @@
 #include <solution_exercise3/Changetwist.h>
 
 bool forward = true;
+
 double newfrequency;
 bool ratechanged = false;
+
 bool move = true;
+
+bool twistchanged = false;
+geometry_msgs::Twist twist;
 
 bool toggleForward(
 	std_srvs::Empty::Request &req,
@@ -52,7 +57,16 @@ bool toggleMotion(
 bool changeTwist(
         solution_exercise3::Changetwist::Request &req,
         solution_exercise3::Changetwist::Response &resp){
+        
+        if(move){
+                twist = req.twist;
+                ROS_INFO_STREAM("Changing twist to ");
+        }
+        else{
+                ROS_ERROR_STREAM("Failed to update twist as turtle is stationary");
+        }
 
+        resp.ret = true;
 
         return true;
 }
@@ -78,8 +92,8 @@ int main(int argc, char **argv){
 	while(ros::ok()){
 		geometry_msgs::Twist msg;
                 if (move){
-                        msg.linear.x = forward?1.0:0.0;
-                        msg.angular.z=forward?0.0:1.0;
+                        msg.linear.x = forward? 1.0: 0.0;
+                        msg.angular.z = forward? 0.0: 1.0;
                 }
                 else{
                         msg.linear.x = 0.0;
