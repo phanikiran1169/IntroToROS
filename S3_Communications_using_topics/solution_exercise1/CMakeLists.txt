@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(solution_exercise1)
 
 # Find the catkin build system, and any other packages on which we depend.
-find_package(catkin REQUIRED COMPONENTS roscpp geometry_msgs turtlesim)
+find_package(catkin REQUIRED COMPONENTS roscpp std_msgs geometry_msgs turtlesim)
 
 # Declare our catkin package.
 catkin_package()

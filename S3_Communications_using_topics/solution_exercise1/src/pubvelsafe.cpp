@@ -1,33 +1,53 @@
 // This program publishes randomly-generated velocity
 // messages for turtlesim.
 #include <ros/ros.h>
-#include <turtlesim/Pose.h>  // For turtlesim::Pose 
 #include <geometry_msgs/Twist.h>  // For geometry_msgs::Twist
+#include <std_msgs/Float32.h>
+#include <turtlesim/Pose.h>
 #include <stdlib.h> // For rand() and RAND_MAX
-#include <iomanip> // for std::setprecision and std::fixed
 
-// Declare global postion variables
-float position_x;
-float position_y;
+// Global variable to store the pose of turtlesim
+turtlesim::Pose pose;
 
-// Declare global variable for checking callback function exceution
-bool callback_trigger = false;
+// Centre of turtlesim window
+const float centreX = 5.5;
+const float centreY = 5.5;
+
+// Safety margin (Defined by half length 
+// of the square safety window) 
+const float margin = 1.0;
+
+// function to find if given point
+// lies inside a given square or not.
+bool liesInside(float x, float y)
+{
+    float x1 = centreX - margin;
+    float y1 = centreY - margin;
+
+    float x2 = centreX + margin;
+    float y2 = centreY + margin;
+
+    if (x > x1 and x < x2 and y > y1 and y < y2)
+        return true;
+ 
+    return false;
+}
 
 // A callback function.  Executed each time a new pose
 // message arrives.
-void poseMessageReceived(const turtlesim::Pose& msg) 
-{
+void poseMessageReceived(const turtlesim::Pose& msg) {
   ROS_INFO_STREAM(std::setprecision(2) << std::fixed
-    << "current_position=(" <<  msg.x << "," << msg.y << ")");
-  position_x = msg.x;
-  position_y = msg.y;
-  callback_trigger = true;
+    << "position=(" <<  msg.x << "," << msg.y << ")"
+    << " direction=" << msg.theta);
+
+    pose = msg;
 }
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
+  
+  
   // Initialize the ROS system and become a node.
-  ros::init(argc, argv, "publish_velocity_safe");
+  ros::init(argc, argv, "publish_velocity");
   ros::NodeHandle nh;
 
   // Create a publisher object.
@@ -36,7 +56,7 @@ int main(int argc, char **argv)
 
   // Create a subscriber object.
   ros::Subscriber sub = nh.subscribe("turtle1/pose", 1000,
-    &poseMessageReceived);
+    &poseMessageReceived);  
 
   // Seed the random number generator.
   srand(time(0));
@@ -44,51 +64,33 @@ int main(int argc, char **argv)
   // Loop at 2Hz until the node is shut down.
   ros::Rate rate(2);
 
-  // Loop at 62Hz to control ros::spinOnce() execution rate
-  // Here 62Hz is taken because the dat is published at the avg rate of 62Hz on
-  // the topic (turtle1/pose).
-  ros::Rate rate_spin(62);
-
-  while(ros::ok())
-  {
+  while(ros::ok()) {
     // Create and fill in the message.  The other four
     // fields, which are ignored by turtlesim, default to 0.
-    geometry_msgs::Twist motion_msg;
-
-    // Let ROS take over
-    while(true)
-    {
-      ros::spinOnce();
-      if (callback_trigger == true)
-      {
-        break;
-      }
-      rate_spin.sleep();
-    }
-
-    if (position_x < 8.0 && position_y < 8.0)
-    {
+    geometry_msgs::Twist twist;
+    
+    if(liesInside(pose.x, pose.y)) {
       ROS_INFO_STREAM("Turtle is inside safe zone");
-      motion_msg.linear.x = 1.0;
-      motion_msg.angular.z = 2*double(rand())/double(RAND_MAX) - 1;
+      twist.linear.x = 1.0;
+      twist.angular.z = 2*double(rand())/double(RAND_MAX) - 1;
     }
-    else
-    {
+
+    else {
       ROS_INFO_STREAM("Turtle is outside safe zone");
-      motion_msg.linear.x = double(rand())/double(RAND_MAX);
-      motion_msg.angular.z = 2*double(rand())/double(RAND_MAX) - 1;
+      twist.linear.x = double(rand())/double(RAND_MAX);
+      twist.angular.z = 2*double(rand())/double(RAND_MAX) - 1;
     }
 
     // Publish the message.
-    pub.publish(motion_msg);
+    pub.publish(twist);
 
     // Send a message to rosout with the details.
     ROS_INFO_STREAM("Sending random velocity command:"
-      << " linear=" << motion_msg.linear.x
-      << " angular=" << motion_msg.angular.z);
+      << " linear=" << twist.linear.x
+      << " angular=" << twist.angular.z);
 
-    callback_trigger = false;
-
+    ros::spinOnce();
+    
     // Wait until it's time for another iteration.
     rate.sleep();
   }
