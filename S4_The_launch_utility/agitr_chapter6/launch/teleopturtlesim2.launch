@@ -1,0 +1,11 @@
+<launch>
+  <include
+    file="$(find agitr_chapter6)/launch/teleopturtlesim.launch"
+  />
+  <node
+    pkg="agitr_chapter3"
+    type="subpose"
+    name="pose_subscriber"
+    output="screen"
+  />
+</launch>
