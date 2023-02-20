@@ -1,22 +1,35 @@
-//this program toggles between rotation and translation
-//commands,based on calls to a service.
+//This program is the solution for exercise 3a
 #include <ros/ros.h>
 #include <std_srvs/Empty.h>
 #include <geometry_msgs/Twist.h>
 #include <solution_exercise3/Changerate.h>
 #include <solution_exercise3/Changetwist.h>
 
+// Global variables
+
+// Flag to distinguish whether the turtle is
+// moving forward or rotating
 bool forward = true;
+// Flag to indicate that toggle_forward service
+// request has been taken into account
 bool toggled = true;
 
+// New input frequency
 double newfrequency;
+// Flag to indicate that change_rate service
+// request has been taken into account 
 bool ratechanged = false;
 
+// Flag to indicate whether turtle is moving
+// or stationary
 bool moving = true;
 
+// Flag to indicate that change_twist service
+// has been taken into account
 bool twistchanged = false;
 geometry_msgs::Twist twist;
 
+// Callback function for toggle_forward service
 bool toggleForward(
 	std_srvs::Empty::Request &req,
 	std_srvs::Empty::Response &resp){
@@ -35,6 +48,7 @@ bool toggleForward(
 	return true;
 }
 
+// Callback function for change_rate service
 bool changeRate(
         solution_exercise3::Changerate::Request &req,
         solution_exercise3::Changerate::Response &resp){
@@ -48,6 +62,7 @@ bool changeRate(
         return true;
 }
 
+// Callback function for toggle_motion service
 bool toggleMotion(
 	std_srvs::Empty::Request &req,
 	std_srvs::Empty::Response &resp){
@@ -57,6 +72,7 @@ bool toggleMotion(
 	return true;
 }
 
+// Callback function for change_twist service
 bool changeTwist(
         solution_exercise3::Changetwist::Request &req,
         solution_exercise3::Changetwist::Response &resp){
@@ -87,10 +103,12 @@ bool changeTwist(
  
 
 int main(int argc, char **argv){
+        // ROS init
         ros::init(argc,argv,"pubvel_toggle_rate");
 	ros::NodeHandle nh;
         
-	ros::ServiceServer server0 = 
+	// Create the services that this node offers
+        ros::ServiceServer server0 = 
 		nh.advertiseService("toggle_forward",&toggleForward);
                 
         ros::ServiceServer server1 =
@@ -102,6 +120,7 @@ int main(int argc, char **argv){
         ros::ServiceServer server3 = 
 		nh.advertiseService("change_twist",&changeTwist);
                 
+        // Create a publisher object
         ros::Publisher pub=nh.advertise<geometry_msgs::Twist>(
 		"turtle1/cmd_vel",1000);
     
