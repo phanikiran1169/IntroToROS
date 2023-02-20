@@ -7,11 +7,12 @@
 #include <solution_exercise3/Changetwist.h>
 
 bool forward = true;
+bool toggled = true;
 
 double newfrequency;
 bool ratechanged = false;
 
-bool move = true;
+bool moving = true;
 
 bool twistchanged = false;
 geometry_msgs::Twist twist;
@@ -20,8 +21,10 @@ bool toggleForward(
 	std_srvs::Empty::Request &req,
 	std_srvs::Empty::Response &resp){
         
-        if(move){
+        if(moving){
                 forward = !forward;
+                twistchanged = false;
+                toggled = true;
                 ROS_INFO_STREAM("Now sending "<<(forward?
                 "forward":"rotate")<< " commands.");
         }
@@ -48,9 +51,9 @@ bool changeRate(
 bool toggleMotion(
 	std_srvs::Empty::Request &req,
 	std_srvs::Empty::Response &resp){
-        move = !move;
+        moving = !moving;
         ROS_INFO_STREAM("Now the turtle is "<<
-                (move? "moving":"stationary"));
+                (moving? "moving":"stationary"));
 	return true;
 }
 
@@ -58,15 +61,26 @@ bool changeTwist(
         solution_exercise3::Changetwist::Request &req,
         solution_exercise3::Changetwist::Response &resp){
         
-        if(move){
-                twist = req.twist;
+        if(moving){
+                twist.linear.x = req.twist.linear.x;
+                twist.linear.y = req.twist.linear.y;
+                twist.linear.z = req.twist.linear.z;
+
+                twist.angular.x = req.twist.angular.x;
+                twist.angular.y = req.twist.angular.y;
+                twist.angular.z = req.twist.angular.z;
+
+                twistchanged = true;
+                toggled = false;
+                resp.ret = true;
                 ROS_INFO_STREAM("Changing twist to ");
         }
         else{
                 ROS_ERROR_STREAM("Failed to update twist as turtle is stationary");
+                resp.ret = false;
         }
 
-        resp.ret = true;
+        
 
         return true;
 }
@@ -83,7 +97,10 @@ int main(int argc, char **argv){
                 nh.advertiseService("change_rate",&changeRate);
 
         ros::ServiceServer server2 = 
-		nh.advertiseService("toggle_motion",&toggleMotion);        
+		nh.advertiseService("toggle_motion",&toggleMotion);
+
+        ros::ServiceServer server3 = 
+		nh.advertiseService("change_twist",&changeTwist);
                 
         ros::Publisher pub=nh.advertise<geometry_msgs::Twist>(
 		"turtle1/cmd_vel",1000);
@@ -91,9 +108,22 @@ int main(int argc, char **argv){
         ros::Rate rate(2);
 	while(ros::ok()){
 		geometry_msgs::Twist msg;
-                if (move){
-                        msg.linear.x = forward? 1.0: 0.0;
-                        msg.angular.z = forward? 0.0: 1.0;
+                if (moving){
+                        
+                        if(toggled){
+                                msg.linear.x = forward? 1.0: 0.0;
+                                msg.angular.z = forward? 0.0: 1.0;
+                        }
+
+                        if(twistchanged){
+                                msg.linear.x = twist.linear.x;
+                                msg.linear.y = twist.linear.y;
+                                msg.linear.z = twist.linear.z;
+                                msg.angular.x = twist.angular.x;
+                                msg.angular.y = twist.angular.y;
+                                msg.angular.z = twist.angular.z;
+                        }
+                        
                 }
                 else{
                         msg.linear.x = 0.0;
