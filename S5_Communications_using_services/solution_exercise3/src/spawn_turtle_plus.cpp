@@ -10,8 +10,8 @@ ros::Publisher *pubPtr;
 
 void commandVelocityReceived(const geometry_msgs::Twist& msgIn){
     geometry_msgs::Twist msgOut;
-    msgOut.linear.x = -msgIn.linear.x;
-    msgOut.angular.z = -msgIn.angular.z;
+    msgOut.linear.x = msgIn.linear.x;
+    msgOut.angular.z = msgIn.angular.z;
     pubPtr->publish(msgOut);
 }
 
