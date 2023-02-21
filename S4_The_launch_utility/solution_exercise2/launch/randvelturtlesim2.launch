@@ -1,0 +1,11 @@
+<launch>
+  <include
+    file="$(find solution_exercise2)/launch/randvelturtlesim.launch"
+  />
+  <node
+    pkg="agitr_chapter3"
+    type="subpose"
+    name="pose_subscriber"
+    output="screen"
+  />
+</launch>
