@@ -89,7 +89,7 @@ bool changeTwist(
                 twistchanged = true;
                 toggled = false;
                 resp.ret = true;
-                ROS_INFO_STREAM("Changing twist to ");
+                ROS_INFO_STREAM("Changing twist to requested value");
         }
         else{
                 ROS_ERROR_STREAM("Failed to update twist as turtle is stationary");
