@@ -41,6 +41,7 @@ include_directories(include ${catkin_INCLUDE_DIRS})
 # Declare the executable, along with its source files.
 add_executable(pubvel_toggle src/pubvel_toggle.cpp)
 add_executable(spawn_turtle src/spawn_turtle.cpp)
+add_executable(spawn_turtle_plus src/spawn_turtle_plus.cpp)
 add_executable(improved_pubvel_toggle src/improved_pubvel_toggle.cpp)
 
 # Specify libraries against which to link.
@@ -48,3 +49,4 @@ target_link_libraries(pubvel_toggle ${catkin_LIBRARIES})
 target_link_libraries(improved_pubvel_toggle ${catkin_LIBRARIES})
 add_dependencies(improved_pubvel_toggle ${catkin_EXPORTED_TARGETS} ${${PROJECT_NAME}_EXPORTED_TARGETS})
 target_link_libraries(spawn_turtle ${catkin_LIBRARIES})
+target_link_libraries(spawn_turtle_plus ${catkin_LIBRARIES})

@@ -79,17 +79,12 @@ bool changeTwist(
         
         if(moving){
                 twist.linear.x = req.twist.linear.x;
-                twist.linear.y = req.twist.linear.y;
-                twist.linear.z = req.twist.linear.z;
-
-                twist.angular.x = req.twist.angular.x;
-                twist.angular.y = req.twist.angular.y;
                 twist.angular.z = req.twist.angular.z;
 
                 twistchanged = true;
                 toggled = false;
                 resp.ret = true;
-                ROS_INFO_STREAM("Changing twist to ");
+                ROS_INFO_STREAM("Changing twist to requested value");
         }
         else{
                 ROS_ERROR_STREAM("Failed to update twist as turtle is stationary");
@@ -136,10 +131,6 @@ int main(int argc, char **argv){
 
                         if(twistchanged){
                                 msg.linear.x = twist.linear.x;
-                                msg.linear.y = twist.linear.y;
-                                msg.linear.z = twist.linear.z;
-                                msg.angular.x = twist.angular.x;
-                                msg.angular.y = twist.angular.y;
                                 msg.angular.z = twist.angular.z;
                         }
                         

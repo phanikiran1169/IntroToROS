@@ -1,0 +1,26 @@
+<launch>
+ <node
+   pkg="turtlesim"
+   type="turtlesim_node"
+   name="turtlesim"
+   respawn="true"
+ />
+
+ <node
+   pkg="solution_exercise3"
+   type="improved_pubvel_toggle"
+   name="improved_pubvel_toggle"
+   respawn="true"
+ />
+
+ <arg
+   name="spawn_turtle_plus"
+   default="0"
+ />
+ <node if="$(arg spawn_turtle_plus)"
+   pkg="solution_exercise3"
+   type="spawn_turtle_plus"
+   name="spawn_turtle_plus"
+   output="screen"
+ />
+</launch>
