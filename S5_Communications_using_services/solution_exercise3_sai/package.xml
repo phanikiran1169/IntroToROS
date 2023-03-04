@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package  format="2">
+  <name>solution_exercise3</name>
+  <version>0.0.1</version>
+  <description>
+    Exercise 3 from Introduction to ROS course
+  </description>
+  <maintainer email="phanikiran@email.com">
+    Phani Kiran
+  </maintainer>
+  <license>TODO</license>
+  
+  <buildtool_depend>catkin</buildtool_depend> 
+  <build_export_depend>message_runtime</build_export_depend>
+  <exec_depend>message_runtime</exec_depend>
+  
+  <depend>message_generation</depend>
+  <depend>std_msgs</depend>
+  <depend>roscpp</depend>   
+  <depend>turtlesim</depend>   
+  <depend>geometry_msgs</depend>   
+</package>
