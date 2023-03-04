@@ -48,10 +48,11 @@ int main(int argc, char **argv){
     }
 
 // Create a publisher object.
-    pubPtr = new nh.advertise<geometry_msgs::Twist>("MyTurtle/cmd_vel", 1000);
+    pubPtr = new ros::Publisher(
+        nh.advertise<geometry_msgs::Twist>("MyTurtle/cmd_vel", 1000));
 
 // Create a subscriber object.
-    ros::Subscriber sub = nh.subscribe("turtle1/pose", 1000, &newPubvel);
+    ros::Subscriber sub = nh.subscribe("turtle1/cmd_vel", 1000, &newPubvel);
 
 // Create a client object for toggle forward service.
     ros::ServiceClient toggleforwardClient 
@@ -62,7 +63,7 @@ int main(int argc, char **argv){
     std_srvs::Empty::Response resp1;
 
     ros::service::waitForService("toggle_forward", ros::Duration(5));
-    bool success = toggleforwardClient.call(req1,resp1);
+    success = toggleforwardClient.call(req1,resp1);
 
     if(success)
     {
@@ -81,10 +82,10 @@ int main(int argc, char **argv){
     solution_exercise3_sai::Changespeed::Request req2;
     solution_exercise3_sai::Changespeed::Response resp2;
 
-    req2.newvelocity = 10
+    req2.newvelocity = 10;
 
     ros::service::waitForService("change_speed", ros::Duration(5));
-    bool success = changeSpeedClient.call(req2,resp2);
+    success = changeSpeedClient.call(req2,resp2);
 
     if(success)
     {

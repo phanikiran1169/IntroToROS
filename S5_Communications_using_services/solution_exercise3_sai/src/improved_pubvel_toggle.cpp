@@ -3,7 +3,7 @@
 #include <ros/ros.h>
 #include <std_srvs/Empty.h>
 #include <geometry_msgs/Twist.h>
-#include <agitr_chapter8_plus/Changerate.h>
+#include <solution_exercise3_sai/Changerate.h>
 #include <solution_exercise3_sai/Changespeed.h>
 
 bool forward = true;
@@ -23,8 +23,8 @@ bool toggleForward(
 }
 
 bool changeRate(
-        agitr_chapter8_plus::Changerate::Request &req,
-        agitr_chapter8_plus::Changerate::Response &resp){
+        solution_exercise3_sai::Changerate::Request &req,
+        solution_exercise3_sai::Changerate::Response &resp){
 
         ROS_INFO_STREAM("Changing rate to "<<req.newrate);
 
@@ -37,9 +37,7 @@ bool toggleStartStop(
         std_srvs::Empty::Request &req, 
         std_srvs::Empty::Response &resp)
 {       
-        stop == true? 
-                ROS_INFO_STREAM("Stopping the turtle") : 
-                ROS_INFO_STREAM("Starting the turtle");
+        ROS_INFO_STREAM((stop? "stopping":"starting") << "the turtle");
         stop = !stop;
         return true;
 }
@@ -76,8 +74,14 @@ int main(int argc, char **argv){
         ros::Rate rate(2);
 	while(ros::ok()){
 		geometry_msgs::Twist msg;
+                // Use forward to check if toggle_foward is requested
+                // velocities are multiplied by "stop" to include the
+                // fucntionality of start / stop service.
                 msg.linear.x = forward?stop*1.0:0.0;
                 msg.angular.z=forward?0.0:stop*1.0;
+
+                // If change_speed service is requested, overwrite the default
+                // velocities with the new veolicities.
                 if (speedchanged == true)
                 {
                         msg.linear.x = forward?stop*newspeed:0.0;

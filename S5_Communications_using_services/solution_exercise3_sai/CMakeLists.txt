@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 
 # The name of this package.
-project(solution_exercise3)
+project(solution_exercise3_sai)
 
 # Find the catkin build system, and any other packages on which we depend.
 find_package(catkin REQUIRED COMPONENTS 
