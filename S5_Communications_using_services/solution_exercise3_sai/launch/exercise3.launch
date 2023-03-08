@@ -1,0 +1,25 @@
+<launch>
+  <arg 
+    name="addturtle"
+    default="0"
+  />
+  <node
+    pkg="turtlesim"
+    type="turtlesim_node"
+    name="turtlesim"
+    respawn="true"
+  />
+  <node
+    pkg="solution_exercise3_sai"
+    type="improved_pubvel_toggle"
+    name="pubvel_toggle_rate"
+    required="true"
+    launch-prefix="xterm -e"
+  />
+  <node if="$(arg addturtle)"
+    pkg="solution_exercise3_sai"
+    type="spawn_turtle_plus"
+    name="spawn_turtle_plus"
+    launch-prefix="xterm -e"
+  />
+</launch>

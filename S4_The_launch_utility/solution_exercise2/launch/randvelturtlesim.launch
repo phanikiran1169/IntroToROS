@@ -1,0 +1,15 @@
+<launch>
+  <node
+    pkg="turtlesim"
+    type="turtlesim_node"
+    name="turtlesim"
+    respawn="true"
+  />
+  <node
+    pkg="agitr_chapter3"
+    type="pubvel"
+    name="publish_velocity"
+    required="true"
+    launch-prefix="xterm -e"
+  />
+</launch>
