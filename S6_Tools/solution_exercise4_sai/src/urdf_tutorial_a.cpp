@@ -6,6 +6,7 @@
 double deltaPan;
 double deltaTilt;
 double scale;
+const double rad2deg = 180/M_PI;
 
 ros::Publisher* joint_pub;
 
@@ -21,8 +22,8 @@ void pubJointState(const geometry_msgs::Twist &msgIn)
   scale =0.5;
 
   // increments taken the keyboard input
-  deltaPan =  msgIn.linear.x * scale;
-  deltaTilt = msgIn.angular.z * scale;
+  deltaPan =  msgIn.linear.x * rad2deg * scale;
+  deltaTilt = msgIn.angular.z * rad2deg * scale;
         
   pan = pan + deltaPan;
   tilt = tilt + deltaTilt;
@@ -33,6 +34,9 @@ void pubJointState(const geometry_msgs::Twist &msgIn)
   joint_state.position[0] = pan;
   joint_state.name[1] ="tilt_joint";
   joint_state.position[1] = tilt;
+
+  ROS_INFO_STREAM("pan_joint position:" << pan << "deg "
+                  "& tilt_joint position: " << tilt << "deg");
 
   //publish the joint state 
   (*joint_pub).publish(joint_state);

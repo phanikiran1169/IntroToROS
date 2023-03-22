@@ -21,6 +21,7 @@
     pkg="solution_exercise4_sai" 
     type="urdf_tutorial_a"
     name="urdf_tutorial_a"
+    output="screen"
   /> 
   
   <!-- Starting robot state publish which will publish tf -->
