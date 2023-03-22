@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<launch>
+  <param name="robot_description" textfile="$(find mastering_ros_robot_description_pkg)/urdf/pan_tilt.urdf" />
+
+  <!-- Starting turtlesim teleop node which will publish the keyboard inputs -->
+  <node 
+    pkg="turtlesim" 
+    type="turtle_teleop_key"
+    name="teleop_key"
+    required="true"
+    launch-prefix="xterm -e"
+  >
+    <remap
+      from="turtle1/cmd_vel"
+      to="teleop_values"
+    />
+  </node>
+
+  <!-- Starting joint publisher node which will publish the joint values -->
+  <node 
+    pkg="solution_exercise4_sai" 
+    type="urdf_tutorial_a"
+    name="urdf_tutorial_a"
+  /> 
+  
+  <!-- Starting robot state publish which will publish tf -->
+  <node 
+    name="robot_state_publisher" 
+    pkg="robot_state_publisher" 
+    type="robot_state_publisher" 
+  />
+
+  <!-- Launch visualization in rviz -->
+  <node 
+    name="rviz" 
+    pkg="rviz" 
+    type="rviz" 
+    args="-d $(find mastering_ros_robot_description_pkg)/urdf.rviz" 
+    required="true" 
+  />
+</launch>
