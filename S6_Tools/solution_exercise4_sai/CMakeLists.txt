@@ -54,11 +54,10 @@ find_package(catkin REQUIRED COMPONENTS
 ## )
 
 #Generate services in the 'srv' folder
-#[TEMP]add_service_files(
-#[TEMP]  FILES
-#[TEMP]  changescale.srv
-#[TEMP]  changecontrolledjoints.srv
-#[TEMP])
+add_service_files(
+  FILES
+  change_scale.srv
+)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -192,8 +191,10 @@ include_directories(
 
 
 add_executable(urdf_tutorial_a src/urdf_tutorial_a.cpp)
+add_executable(urdf_tutorial_b src/urdf_tutorial_b.cpp)
 
 target_link_libraries(urdf_tutorial_a ${catkin_LIBRARIES})
+target_link_libraries(urdf_tutorial_b ${catkin_LIBRARIES})
 
 
 
