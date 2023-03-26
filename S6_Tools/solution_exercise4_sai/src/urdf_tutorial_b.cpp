@@ -51,7 +51,7 @@ void pubJointState(const geometry_msgs::Twist &msgIn)
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "urdf_tutorial_a");
+  ros::init(argc, argv, "urdf_tutorial_b");
   ros::NodeHandle nh;
 
   // Create a server object for changing scale

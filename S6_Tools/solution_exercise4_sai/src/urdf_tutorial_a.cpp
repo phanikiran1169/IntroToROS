@@ -3,8 +3,8 @@
 #include <sensor_msgs/JointState.h>
 
 
-double deltaPan;
-double deltaTilt;
+double deltaPan=0.0;
+double deltaTilt=0.0;
 double scale;
 const double rad2deg = 180/M_PI;
 
